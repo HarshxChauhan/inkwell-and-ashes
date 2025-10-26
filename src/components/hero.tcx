@@ -1,0 +1,67 @@
+'use client';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+
+export default function Hero() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <section className="relative h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      {/* Subtle ink swirl background - CSS animation */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-transparent via-white to-transparent rounded-full animate-pulse blur-xl"></div>
+      </div>
+      {/* Parallax effect based on mouse */}
+      <motion.div
+        animate={{ x: mousePosition.x * 0.01, y: mousePosition.y * 0.01 }}
+        className="absolute inset-0 bg-cover bg-center opacity-20"
+        style={{
+          backgroundImage: 'ur[](https://source.unsplash.com/1920x1080/?ink,smoke)',
+        }}
+      />
+      <div className="relative z-10 text-center px-4">
+        <motion.h1
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="text-6xl md:text-8xl font-serif mb-4 text-gray-100 drop-shadow-lg"
+        >
+          Inkwell & Ashes
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.8 }}
+          className="text-xl md:text-2xl text-gray-300 mb-8"
+        >
+          Where Words Meet Art.
+        </motion.p>
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1 }}
+          className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto"
+        >
+          Luxury stationery for those who write their own story.
+        </motion.p>
+        <motion.button
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          whileHover={{ scale: 1.05, backgroundColor: '#D4AF37' }}
+          className="bg-gray-700 text-white px-10 py-4 rounded-full font-medium text-lg hover:bg-gray-600 transition-colors shadow-lg"
+        >
+          Discover Collection
+        </motion.button>
+      </div>
+    </section>
+  );
+}
